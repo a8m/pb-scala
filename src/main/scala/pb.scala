@@ -31,6 +31,7 @@ class ProgressBar(_total: Int) {
   }
 
   def draw() {
+    val width = 80
     var prefix, base, suffix = ""
     // percent box
     if (showPercent) {
@@ -42,7 +43,25 @@ class ProgressBar(_total: Int) {
       val fromStart = (startTime to DateTime.now).millis.toFloat
       val speed = current / (fromStart / 1.seconds.millis)
       // Set bytes condition
-      suffix +=  "%.2f/s ".format(speed)
+      suffix +=  "%.0f/s ".format(speed)
     }
+    // time left box
+    if (showTimeLeft) {
+      val fromStart = (startTime to DateTime.now).millis.toFloat
+      val left = (fromStart / current) * (total - current)
+      val dur = Duration.millis(Math.ceil(left).toLong)
+      if (dur.seconds >= 0) {
+        if (dur.seconds < 1.minutes.seconds) suffix += "%ds".format(dur.seconds)
+        else suffix += "%dm".format(dur.minutes)
+      }
+      println(suffix)
+    }
+    // out
+    var out = prefix + base + suffix
+    if (out.length < width) {
+      out += " " * (width - out.length)
+    }
+    // print
+    //print("\r" + out)
   }
 }
