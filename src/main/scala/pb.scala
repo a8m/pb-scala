@@ -35,11 +35,14 @@ class ProgressBar(_total: Int) {
     // percent box
     if (showPercent) {
       var percent = current.toFloat / (total.toFloat / 100)
-      suffix += "%.2f %% ".format(percent)
+      suffix += " %.2f %% ".format(percent)
     }
     // speed box
     if (showSpeed) {
-      
+      val fromStart = (startTime to DateTime.now).millis.toFloat
+      val speed = current / (fromStart / 1.seconds.millis)
+      // Set bytes condition
+      suffix +=  "%.2f/s ".format(speed)
     }
   }
 }
