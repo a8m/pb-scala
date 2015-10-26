@@ -42,7 +42,7 @@ class ProgressBar(_total: Int) {
     if (showSpeed) {
       val fromStart = (startTime to DateTime.now).millis.toFloat
       val speed = current / (fromStart / 1.seconds.millis)
-      // Set bytes condition
+      // TODO: Set bytes condition
       suffix +=  "%.0f/s ".format(speed)
     }
     // time left box
@@ -55,6 +55,11 @@ class ProgressBar(_total: Int) {
         else suffix += "%dm".format(dur.minutes)
       }
       println(suffix)
+    }
+    // counter box
+    if (showCounterBox) {
+      // TODO: Set bytes condition
+      prefix += "%d / %d ".format(current, total)
     }
     // out
     var out = prefix + base + suffix
