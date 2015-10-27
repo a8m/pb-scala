@@ -54,12 +54,26 @@ class ProgressBar(_total: Int) {
         if (dur.seconds < 1.minutes.seconds) suffix += "%ds".format(dur.seconds)
         else suffix += "%dm".format(dur.minutes)
       }
-      println(suffix)
     }
     // counter box
-    if (showCounterBox) {
+    if (showCounter) {
       // TODO: Set bytes condition
       prefix += "%d / %d ".format(current, total)
+    }
+    // bar box
+    if (showBar) {
+      val size = width - (prefix + suffix).length - 3
+      if (size > 0) {
+        val curCount = Math.ceil((current.toFloat / total) * size).toInt
+        val remCount = size - curCount
+        base = barStart
+        if (remCount > 0) {
+          base += barCurrent * (curCount - 1) + barCurrentN
+        } else {
+          base += barCurrent * curCount
+        }
+        base += barRemain * remCount + barEnd
+      }
     }
     // out
     var out = prefix + base + suffix
@@ -67,6 +81,6 @@ class ProgressBar(_total: Int) {
       out += " " * (width - out.length)
     }
     // print
-    //print("\r" + out)
+    print("\r" + out)
   }
 }
