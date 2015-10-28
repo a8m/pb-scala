@@ -1,4 +1,5 @@
 import com.github.nscala_time.time.Imports._
+import jline.{TerminalFactory}
 
 object ProgressBar {
   private val Format = "[=>-]"
@@ -16,6 +17,7 @@ class ProgressBar(_total: Int) {
 
   def add(i: Int): Int = {
     current += i
+    if (current <= total) draw()
     current
   }
 
@@ -31,7 +33,7 @@ class ProgressBar(_total: Int) {
   }
 
   def draw() {
-    val width = 80
+    val width = TerminalFactory.get().getWidth()
     var prefix, base, suffix = ""
     // percent box
     if (showPercent) {
