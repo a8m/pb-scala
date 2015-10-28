@@ -21,6 +21,8 @@ class ProgressBar(_total: Int) {
     current
   }
 
+  def +=(i: Int): Int = add(i)
+
   def format(fmt: String) {
     if (fmt.length >= 5) {
       val v = fmt.split("").toList
@@ -84,5 +86,11 @@ class ProgressBar(_total: Int) {
     }
     // print
     print("\r" + out)
+  }
+
+  def finish() {
+    if (current < total) add(total - current)
+    println()
+    isFinish = true
   }
 }
