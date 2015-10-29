@@ -68,23 +68,27 @@ class ProgressBar(_total: Int) {
     if (showSpeed) {
       val fromStart = (startTime to DateTime.now).millis.toFloat
       val speed = current / (fromStart / 1.seconds.millis)
-      // TODO: Set bytes condition
-      suffix +=  "%.0f/s ".format(speed)
+      suffix += (units match {
+        case Default => "%.0f/s ".format(speed)
+        case Bytes => "%s/s ".format(ProgressBar.kbFmt(speed))
+      })
     }
     // time left box
     if (showTimeLeft) {
       val fromStart = (startTime to DateTime.now).millis.toFloat
       val left = (fromStart / current) * (total - current)
       val dur = Duration.millis(Math.ceil(left).toLong)
-      if (dur.seconds >= 0) {
+      if (dur.seconds > 0) {
         if (dur.seconds < 1.minutes.seconds) suffix += "%ds".format(dur.seconds)
         else suffix += "%dm".format(dur.minutes)
       }
     }
     // counter box
     if (showCounter) {
-      // TODO: Set bytes condition
-      prefix += "%d / %d ".format(current, total)
+      prefix += (units match {
+        case Default => "%d / %d ".format(current, total)
+        case Bytes => "%s / %s ".format(ProgressBar.kbFmt(current), ProgressBar.kbFmt(total))
+      })
     }
     // bar box
     if (showBar) {
