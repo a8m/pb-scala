@@ -1,14 +1,32 @@
 import com.github.nscala_time.time.Imports._
 import jline.{TerminalFactory}
 
+object Units extends Enumeration {
+  type Units = Value
+  val Default, Bytes = Value
+}
+import Units._
+
 object ProgressBar {
   private val Format = "[=>-]"
+
+  def kbFmt(n: Double): String = {
+    var kb = 1024
+    n match {
+      case x if x >= Math.pow(kb, 4) => "%.2f TB".format(x / Math.pow(kb, 4))
+      case x if x >= Math.pow(kb, 3) => "%.2f GB".format(x / Math.pow(kb, 3))
+      case x if x >= Math.pow(kb, 2) => "%.2f MB".format(x / Math.pow(kb, 2))
+      case x if x >= kb => "%.2f KB".format(x / kb)
+      case _ => "%.0f B".format(n)
+    }
+  }
 }
 
 class ProgressBar(_total: Int) {
   private val total = _total
   private var current = 0
   private var startTime = DateTime.now
+  private var units = Units.Default
   private var barStart, barCurrent, barCurrentN, barRemain, barEnd = ""
   var isFinish = false
   var showBar, showSpeed, showPercent, showCounter, showTimeLeft = true
@@ -22,6 +40,10 @@ class ProgressBar(_total: Int) {
   }
 
   def +=(i: Int): Int = add(i)
+
+  def setUnits(u: Units) {
+    units = u
+  }
 
   def format(fmt: String) {
     if (fmt.length >= 5) {
