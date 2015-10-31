@@ -1,3 +1,4 @@
+package pb
 import com.github.nscala_time.time.Imports._
 import jline.{TerminalFactory}
 
@@ -23,8 +24,8 @@ object ProgressBar {
 }
 
 class ProgressBar(_total: Int) {
-  private val total = _total
-  private var current = 0
+  val total = _total
+  var current = 0
   private var startTime = DateTime.now
   private var units = Units.Default
   private var barStart, barCurrent, barCurrentN, barRemain, barEnd = ""

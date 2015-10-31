@@ -1,14 +1,16 @@
+package pb
 import com.github.nscala_time.time.Imports._
 import jline.{TerminalFactory}
 
 object Main {
   def main(args: Array[String]) {
-    println(TerminalFactory.get().getWidth())
-    var pb = new ProgressBar(120)
-    for (i <- 1 to 120) {
-      pb.add(1)
-      Thread.sleep(100)
+    var pb = new ProgressBar(100000000)
+    pb.setUnits(Units.Bytes)
+    for (i <- 1 to 10000) {
+      pb+=10000
+      Thread.sleep(1)
     }
+    pb.finish()
     println("\ndone")
     /*var start = DateTime.now
     Thread.sleep(340)
