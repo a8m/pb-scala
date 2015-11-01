@@ -8,6 +8,10 @@ object Units extends Enumeration {
 }
 import Units._
 
+trait Output {
+  def print(s: String) = Console.print(s)
+}
+
 object ProgressBar {
   private val Format = "[=>-]"
 
@@ -23,7 +27,7 @@ object ProgressBar {
   }
 }
 
-class ProgressBar(_total: Int) {
+class ProgressBar(_total: Int) extends Output {
   val total = _total
   var current = 0
   private var startTime = DateTime.now
