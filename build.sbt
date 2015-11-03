@@ -7,3 +7,6 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.5" % "test",
   "jline" % "jline" % "2.13"
 )
+
+licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
+homepage := Some(url("http://github.com/a8m/pb-scala"))
