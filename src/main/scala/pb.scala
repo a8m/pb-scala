@@ -2,12 +2,18 @@ package pb
 import com.github.nscala_time.time.Imports._
 import jline.{TerminalFactory}
 
+/** Output type format, indicate which format wil be used in
+ *  the speed box.
+ */
 object Units extends Enumeration {
   type Units = Value
   val Default, Bytes = Value
 }
 import Units._
 
+/** We're using Output as a trait of ProgressBar, so be able
+ *  to mock the tty in the tests(i.e: override `print(...)`)
+ */
 trait Output {
   def print(s: String) = Console.print(s)
 }
@@ -27,6 +33,9 @@ object ProgressBar {
   }
 }
 
+/** By calling new ProgressBar with Int as a total, you'll
+ *  create a new ProgressBar with default configuration.
+ */
 class ProgressBar(_total: Int) extends Output {
   val total = _total
   var current = 0
@@ -37,19 +46,29 @@ class ProgressBar(_total: Int) extends Output {
   var showBar, showSpeed, showPercent, showCounter, showTimeLeft = true
 
   format(ProgressBar.Format)
-
+  
+  /** Add to current value
+   *  
+   *  @param          i the number to add to current value
+   *  @return         current value
+   */
   def add(i: Int): Int = {
     current += i
     if (current <= total) draw()
     current
   }
 
+  /** Add value using += operator
+   */
   def +=(i: Int): Int = add(i)
 
-  def setUnits(u: Units) {
-    units = u
-  }
+  /** Set Units size
+   *  the default is simple numbers, but you can use Bytes type instead.
+   */
+  def setUnits(u: Units) = units = u
 
+  /** Set custom format to the drawing bar, default is `[=>-]`
+   */
   def format(fmt: String) {
     if (fmt.length >= 5) {
       val v = fmt.split("").toList
@@ -61,7 +80,7 @@ class ProgressBar(_total: Int) extends Output {
     }
   }
 
-  def draw() {
+  private def draw() {
     val width = TerminalFactory.get().getWidth()
     var prefix, base, suffix = ""
     // percent box
@@ -119,6 +138,9 @@ class ProgressBar(_total: Int) extends Output {
     print("\r" + out)
   }
 
+  /** Calling finish manually will set current to total and draw
+   *  the last time
+   */
   def finish() {
     if (current < total) add(total - current)
     println()
