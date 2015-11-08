@@ -22,14 +22,6 @@ publishTo := {
 publishArtifact in Test := false
 pomIncludeRepository := { _ => false }
 pomExtra := (
-  <url>https://github.com/a8m/pb-scala</url>
-  <licenses>
-    <license>
-      <name>MIT</name>
-      <url>http://opensource.org/licenses/MIT</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
   <scm>
     <url>git@github.com:a8m/pb-scala.git</url>
     <connection>scm:git:git@github.com:a8m/pb-scala.git</connection>
@@ -38,7 +30,7 @@ pomExtra := (
     <developer>
       <id>a8m</id>
       <name>Ariel Mashraki</name>
-      <url>http://github.com/a8m</url>
+      <url>http://github.com/a8m/</url>
     </developer>
   </developers>
 )
