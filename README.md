@@ -1,4 +1,4 @@
-# Console progress bar for Scala
+# Terminal progress bar for Scala
 
 Console progress bar for Scala Inspired from [pb](http://github.com/cheggaaa/pb).
 
