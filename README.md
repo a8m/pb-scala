@@ -2,6 +2,8 @@
 
 Console progress bar for Scala Inspired from [pb](http://github.com/cheggaaa/pb).
 
+![Screenshot](https://github.com/a8m/pb-scala/blob/master/gif/pb_rec.gif)
+
 ## Examples
 1. simple example
 ```scala
